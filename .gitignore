@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.astro/
+
+# Logs
+*.log
+
+# Local env
+.env
+.env.*
+
+# Editor/OS
+.vscode/
+.idea/
+.DS_Store
+
+# Local dev container
+.devcontainer/

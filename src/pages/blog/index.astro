@@ -1,0 +1,61 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title="Blog | Camil Benameur" description="Technical articles on software engineering, distributed systems, and AI infrastructure">
+  <div class="mb-12">
+    <h1 class="text-4xl font-bold text-white mb-4">Blog</h1>
+    <p class="text-xl text-gray-400">
+      Thoughts on software engineering, distributed systems, and building for the future of AI.
+    </p>
+  </div>
+
+  <div class="space-y-8">
+    {sortedPosts.map((post) => {
+      const slug = post.data.slug || post.slug;
+      const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+      
+      return (
+        <article class="group border border-gray-800 rounded-lg p-6 hover:border-gray-700 transition-colors">
+          <div class="flex items-center gap-2 text-sm text-gray-500 mb-3">
+            <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time>
+            {post.data.tags.length > 0 && (
+              <>
+                <span>•</span>
+                <div class="flex gap-2">
+                  {post.data.tags.slice(0, 3).map((tag) => (
+                    <span class="text-gray-400">{tag}</span>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+          
+          <h2 class="text-2xl font-semibold text-white mb-2 group-hover:text-blue-400 transition-colors">
+            <a href={`/blog/${slug}`} class="hover:underline">
+              {post.data.title}
+            </a>
+          </h2>
+          
+          <p class="text-gray-400 mb-4">{post.data.description}</p>
+          
+          <a href={`/blog/${slug}`} class="text-blue-400 hover:text-blue-300 text-sm transition-colors">
+            Read more →
+          </a>
+        </article>
+      );
+    })}
+  </div>
+
+  {sortedPosts.length === 0 && (
+    <p class="text-gray-500 text-center py-12">No posts yet. Check back soon!</p>
+  )}
+</BaseLayout>

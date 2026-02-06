@@ -1,0 +1,79 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const recentPosts = posts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout title="Camil Benameur | Software Engineer">
+  <div class="min-h-[60vh] flex flex-col justify-center">
+    <h1 class="text-5xl md:text-6xl font-bold text-white mb-6">
+      Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Camil</span>
+    </h1>
+    
+    <p class="text-xl md:text-2xl text-gray-400 max-w-2xl mb-8 leading-relaxed">
+      Software engineer exploring the intersection of distributed systems and AI infrastructure.
+      I write about performance optimization, streaming systems, and building robust software.
+    </p>
+    
+    <div class="flex gap-4">
+      <a 
+        href="/blog" 
+        class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors font-medium"
+      >
+        Read the Blog
+      </a>
+      <a 
+        href="https://github.com/camilbenameur" 
+        target="_blank" 
+        rel="noopener"
+        class="px-6 py-3 border border-gray-700 text-gray-300 rounded-lg hover:border-gray-500 hover:text-white transition-colors font-medium"
+      >
+        View GitHub
+      </a>
+    </div>
+  </div>
+
+  {recentPosts.length > 0 && (
+    <section class="mt-24">
+      <h2 class="text-2xl font-bold text-white mb-8">Recent Posts</h2>
+      
+      <div class="space-y-6">
+        {recentPosts.map((post) => {
+          const slug = post.data.slug || post.slug;
+          const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          });
+          
+          return (
+            <a 
+              href={`/blog/${slug}`} 
+              class="block group border border-gray-800 rounded-lg p-5 hover:border-gray-700 transition-colors"
+            >
+              <div class="flex justify-between items-start gap-4">
+                <div>
+                  <h3 class="text-lg font-semibold text-white group-hover:text-blue-400 transition-colors">
+                    {post.data.title}
+                  </h3>
+                  <p class="text-gray-500 text-sm mt-1">{post.data.description}</p>
+                </div>
+                <time class="text-sm text-gray-500 whitespace-nowrap" datetime={post.data.pubDate.toISOString()}>
+                  {formattedDate}
+                </time>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+      
+      <a href="/blog" class="inline-block mt-6 text-blue-400 hover:text-blue-300 transition-colors">
+        View all posts →
+      </a>
+    </section>
+  )}
+</BaseLayout>
