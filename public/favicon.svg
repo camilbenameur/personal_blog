@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <rect width="32" height="32" rx="6" fill="url(#gradient)" />
-  <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" fill="white" font-family="system-ui, sans-serif" font-size="14" font-weight="bold">CB</text>
-  <defs>
-    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#3B82F6" />
-      <stop offset="100%" stop-color="#8B5CF6" />
-    </linearGradient>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="cb_">
+  <rect width="32" height="32" rx="7" fill="#0B0D11"/>
+  <rect x=".5" y=".5" width="31" height="31" rx="6.5" fill="none" stroke="#343C4B"/>
+  <g fill="none" stroke="#E7E9EE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10.73 16.38A3.3 3.3 0 1 0 10.73 20.62"/>
+    <path d="M13.6 10.4V21.8"/>
+    <circle cx="16.9" cy="18.5" r="3.3"/>
+  </g>
+  <path d="M22.4 21.7h5" stroke="#7BE0A4" stroke-width="2.4" stroke-linecap="round" fill="none"/>
 </svg>

@@ -8,6 +8,7 @@ const blog = defineCollection({
     author: z.string().default('Camil Benameur'),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
+    correction: z.object({ date: z.coerce.date(), text: z.string() }).optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
   }),
