@@ -1,0 +1,32 @@
+---
+// The pill nav of the portfolio, adapted for the blog (same classes as the portfolio's SiteHeader.jsx).
+// `cb_` goes to the portfolio; items are Home (the portfolio), Archive, Feed (a JSON Feed, not RSS).
+// current: "archive" on the archive page and on every post (a post belongs to the archive).
+const { current = '' } = Astro.props;
+const items = [
+  { label: 'Home', href: 'https://camilbenameur.com/' },
+  { label: 'Archive', href: '/', key: 'archive' },
+  { label: 'Feed', href: '/feed.json' },
+];
+---
+<header class="pillbar">
+  <nav class="pill" aria-label="Primary">
+    <a class="mark" href="https://camilbenameur.com/" aria-label="Camil Benameur, portfolio">cb<span>_</span></a>
+    <ul class="pill__links">
+      {items.map((i) => <li><a href={i.href} aria-current={i.key && i.key === current ? 'page' : undefined}>{i.label}</a></li>)}
+    </ul>
+    <div class="pill__end">
+      <button class="icon-btn" type="button" data-theme-flip aria-label="Switch between dark and light theme">
+        <svg class="i-moon" aria-hidden="true"><use href="#i-moon"></use></svg>
+        <svg class="i-sun" aria-hidden="true"><use href="#i-sun"></use></svg>
+      </button>
+    </div>
+    <button class="pill__menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+  </nav>
+  <div class="win menu" id="menu" hidden>
+    <div class="win__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="win__title">~/menu</span></div>
+    <ul>
+      {items.map((i) => <li><a href={i.href} aria-current={i.key && i.key === current ? 'page' : undefined}>{i.label}</a></li>)}
+    </ul>
+  </div>
+</header>

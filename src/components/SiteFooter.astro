@@ -1,0 +1,28 @@
+---
+// The status bar of the portfolio, identical on both sites (same markup as the portfolio's SiteFooter.jsx).
+// The scripts own aria-pressed, hidden and aria-keyshortcuts here (/theme.js, /keys.js).
+---
+<footer class="status">
+  <div class="status__in">
+    <span>© 2026 Camil Benameur</span>
+    <nav class="status__links" aria-label="Elsewhere">
+      <a href="https://github.com/camilbenameur" data-key-link="g">GitHub</a><span aria-hidden="true">·</span>
+      <a href="https://www.linkedin.com/in/camil-benameur-14a762194/">LinkedIn</a><span aria-hidden="true">·</span>
+      <a href="https://blog.camilbenameur.com/" data-key-link="b">Blog</a>
+    </nav>
+    <div class="status__right">
+      <span class="keys" role="group" aria-label="Keyboard shortcuts" hidden>keys:
+        <span class="keys__hint"><kbd>g</kbd>GitHub · <kbd>b</kbd>Blog · <kbd>c</kbd>Contact</span>
+        <span class="keys__set">
+          <button type="button" data-keys-set="on" aria-pressed="true">on</button>
+          <button type="button" data-keys-set="off" aria-pressed="false">off</button>
+        </span>
+      </span>
+      <span class="theme" role="group" aria-label="Theme">theme:
+        <button type="button" data-set-theme="dark" aria-pressed="true">dark</button>
+        <button type="button" data-set-theme="light" aria-pressed="false">light</button>
+        <button type="button" data-set-theme="system" aria-pressed="false">system</button>
+      </span>
+    </div>
+  </div>
+</footer>
