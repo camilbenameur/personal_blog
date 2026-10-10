@@ -1,9 +1,8 @@
+/* Order matters: shared tokens, shared base and components (byte-identical to the portfolio's copies, never edit one side alone),
+   then the blog-only file, then Tailwind (preflight is off, so `@tailwind base` only declares its variables). */
+@import './tokens.css';
+@import './base.css';
+@import './prose.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-}

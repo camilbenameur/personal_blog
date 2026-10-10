@@ -1,0 +1,131 @@
+/* ==========================================================================
+   tokens.css - shared design tokens, art direction V1 "Terminal".
+   CUSTOM PROPERTIES ONLY: no component selector, no @theme, no @tailwind.
+   Keep byte-identical in my_website and personal_blog (copy, never edit in a repo).
+
+   Theme model
+   - Dark is the default (html[data-theme="dark"], and what theme.js writes when nothing is stored).
+   - html[data-theme="light"] is the light theme.
+   - html[data-theme="system"], or no data-theme attribute at all (no JS), follows
+     prefers-color-scheme.
+   The light value set appears twice (explicit light, and system under a light OS).
+   _check/check-tokens.mjs fails if the two blocks ever differ.
+   ========================================================================== */
+
+/* ---------- 1. Dark (default) ---------- */
+:root {
+  color-scheme: dark;
+
+  /* surfaces: page, window body, window bar / footer bar, chips / kbd / inline code */
+  --bg: #0B0D11; --panel: #12151B; --bar: #171B22; --raised: #1C212A;
+  /* text */
+  --fg: #E7E9EE; --text-2: #B4BBC8; --muted: #8C95A5; --faint: #6B7485;
+  /* the one accent, the terminal path colour, form error */
+  --accent: #7BE0A4; --accent-ink: #08130D; --accent-hover: #A0EBBE; --path: #8AB4FF;
+  --danger: #FF8A8A;
+  /* lines */
+  --border: #252B36; --border-strong: #343C4B; --input-border: #667084;
+  /* syntax colours: inside code blocks only (4.5:1 or better on panel, bar, raised and bg) */
+  --syn-keyword: #E8A0D0; --syn-string: #8FD19E; --syn-constant: #E5B567; --syn-comment: #8C95A5;
+
+  /* depth, grain, glow, selection */
+  --pill-bg: rgb(18 21 27 / .72);
+  --glow: rgb(123 224 164 / .07);
+  --grain: .05;
+  --grain-filter: none;
+  --diagram-filter: invert(1) hue-rotate(180deg); /* build-time Mermaid diagrams are drawn in greys on white */
+  --selection: rgb(123 224 164 / .28);
+  --shadow-1: 0 1px 0 rgb(255 255 255 / .04) inset, 0 8px 24px -10px rgb(0 0 0 / .55);
+  --shadow-2: 0 1px 0 rgb(255 255 255 / .06) inset, 0 16px 40px -12px rgb(0 0 0 / .6);
+  --shadow-win: 0 1px 0 rgb(255 255 255 / .07) inset, 0 2px 6px rgb(0 0 0 / .35),
+                0 28px 56px -18px rgb(0 0 0 / .75), 0 0 0 1px rgb(0 0 0 / .5);
+  --shadow-hero: var(--shadow-win), 0 70px 110px -50px rgb(0 0 0 / .7);
+
+  /* theme-switch icon in the pill: it shows the theme that is on (moon in dark, sun in light) */
+  --moon-display: block; --sun-display: none;
+
+  /* ---------- 2. Not theme dependent ---------- */
+
+  /* fonts: @fontsource-variable/geist and @fontsource-variable/jetbrains-mono register
+     "Geist Variable" and "JetBrains Mono Variable". "Geist Fallback" is declared in base.css. */
+  --font-sans: "Geist Variable", "Geist Fallback", "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* radii */
+  --r-win: 12px; --r-btn: 8px; --r-chip: 6px; --r-kbd: 5px; --r-code: 4px;
+
+  /* layout */
+  --frame: 1120px;
+  --measure: 62ch;
+  --measure-prose: 66ch;
+  --gutter: 16px;
+  --sec-gap: 72px;
+  --date-col: 168px;
+  --tap: 44px;
+  --pill-w: 760px;
+
+  /* motion */
+  --ease: cubic-bezier(.2, .7, .2, 1);
+
+  /* type scale */
+  --fs-display: clamp(2.75rem, 1.6rem + 5vw, 5rem);
+  --fs-h1-post: clamp(2rem, 1.4rem + 2.6vw, 3rem);
+  --fs-lead: clamp(1.125rem, 1.02rem + .5vw, 1.375rem);
+
+  /* ---------- 3. Compatibility aliases (existing blog Tailwind names) ---------- */
+  --hairline: var(--border);
+  --code-bg: var(--raised);
+  --focus: var(--accent);
+  --stack-sans: var(--font-sans);
+  --stack-mono: var(--font-mono);
+}
+
+@media (min-width: 640px)  { :root { --gutter: 32px; } }
+@media (min-width: 768px)  { :root { --sec-gap: 112px; } }
+@media (min-width: 1024px) { :root { --gutter: 48px; } }
+
+/* ---------- 4. Light, explicit ---------- */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #F4F4F1; --panel: #FFFFFF; --bar: #EDEDE8; --raised: #F0F0EB;
+  --fg: #14171C; --text-2: #3B424E; --muted: #596270; --faint: #7A8291;
+  --accent: #0B7A45; --accent-ink: #FFFFFF; --accent-hover: #085F36; --path: #1F5FBF;
+  --danger: #B3261E;
+  --border: #D9D9D2; --border-strong: #C6C6BD; --input-border: #7A8291;
+  --syn-keyword: #8A1C5C; --syn-string: #1A6B2E; --syn-constant: #7D4300; --syn-comment: #596270;
+  --pill-bg: rgb(255 255 255 / .72);
+  --glow: transparent;
+  --grain: .035;
+  --grain-filter: invert(1);
+  --diagram-filter: none;
+  --selection: rgb(11 122 69 / .22);
+  --shadow-1: 0 1px 2px rgb(20 23 28 / .06), 0 8px 20px -12px rgb(20 23 28 / .18);
+  --shadow-2: 0 1px 2px rgb(20 23 28 / .08), 0 16px 32px -14px rgb(20 23 28 / .24);
+  --shadow-win: 0 1px 2px rgb(20 23 28 / .08), 0 28px 56px -22px rgb(20 23 28 / .28);
+  --shadow-hero: var(--shadow-win), 0 60px 90px -50px rgb(20 23 28 / .25);
+  --moon-display: none; --sun-display: block;
+}
+
+/* ---------- 5. Light, system (data-theme="system" or no attribute) under a light OS ---------- */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]):not([data-theme="light"]) {
+    color-scheme: light;
+    --bg: #F4F4F1; --panel: #FFFFFF; --bar: #EDEDE8; --raised: #F0F0EB;
+    --fg: #14171C; --text-2: #3B424E; --muted: #596270; --faint: #7A8291;
+    --accent: #0B7A45; --accent-ink: #FFFFFF; --accent-hover: #085F36; --path: #1F5FBF;
+    --danger: #B3261E;
+    --border: #D9D9D2; --border-strong: #C6C6BD; --input-border: #7A8291;
+    --syn-keyword: #8A1C5C; --syn-string: #1A6B2E; --syn-constant: #7D4300; --syn-comment: #596270;
+    --pill-bg: rgb(255 255 255 / .72);
+    --glow: transparent;
+    --grain: .035;
+    --grain-filter: invert(1);
+  --diagram-filter: none;
+    --selection: rgb(11 122 69 / .22);
+    --shadow-1: 0 1px 2px rgb(20 23 28 / .06), 0 8px 20px -12px rgb(20 23 28 / .18);
+    --shadow-2: 0 1px 2px rgb(20 23 28 / .08), 0 16px 32px -14px rgb(20 23 28 / .24);
+    --shadow-win: 0 1px 2px rgb(20 23 28 / .08), 0 28px 56px -22px rgb(20 23 28 / .28);
+    --shadow-hero: var(--shadow-win), 0 60px 90px -50px rgb(20 23 28 / .25);
+    --moon-display: none; --sun-display: block;
+  }
+}

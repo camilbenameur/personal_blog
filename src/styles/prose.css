@@ -1,0 +1,36 @@
+/* Blog only. Everything shared (type, window, code window, prose, tables, diagrams, post header,
+   correction, archive rows, prev / next) is in base.css and tokens.css. This file only holds what the blog
+   needs on top: keep it small, and never restyle a shared class here. */
+
+/* Short pages (the 404, a one-post archive): keep the status bar at the bottom of the window instead of
+   leaving an empty strip under it. The fixed pill, the skip link and the grain are out of flow. */
+body { display: flex; flex-direction: column; }
+main { flex: 1 0 auto; }
+
+/* Prose: long identifiers and URLs wrap instead of widening the page. Code blocks keep scrolling. */
+.prose { overflow-wrap: break-word; }
+.prose blockquote > * + *, .prose li > * + * { margin-top: .5em; }
+
+/* Code windows without JavaScript: the copy button is wired by /ui.js, so hide it until theme.js
+   has run (it sets data-theme before first paint; without scripts the attribute is absent). */
+html:not([data-theme]) .code .copy { display: none; }
+
+/* Phones: the shared copy button is a 44px tap target (base.css), so a code window's bar grows to hold it
+   instead of letting the button hang out of a 32px bar. */
+@media (max-width: 639px) {
+  .code .win__bar { height: var(--tap); }
+}
+
+/* Keyboard focus inside a code window. base.css puts the ring 3px outside the control (.win :focus-visible),
+   but .win clips its overflow, so the ring on the code block (a tab stop, tabindex 0) and on the copy button
+   lost its edges. Draw both inset instead: same 2px accent ring, fully inside the window. */
+.code pre:focus-visible, .code .copy:focus-visible { outline-offset: -2px; }
+
+/* Mermaid is rendered at build time in Arial, 16px, normal line height (see astro.config.mjs). Its labels are
+   HTML inside <foreignObject> boxes measured at that size, so they must not inherit the page's 1.65 line height
+   (it pushes the text down and clips the descenders), and the face stays the build-time one for the same reason.
+   The invert filter for dark (--diagram-filter) is in base.css. */
+.scroll svg[id^="mermaid"] { font-family: Arial, Helvetica, sans-serif; line-height: normal; }
+
+/* Page bits that are not in the mockup */
+.not-found, .empty { margin-top: 28px; }
