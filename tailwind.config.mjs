@@ -1,63 +1,40 @@
 /** @type {import('tailwindcss').Config} */
+// Preflight stays off: the shared reset lives in src/styles/base.css. Every value is a design token
+// from src/styles/tokens.css, so a utility follows the theme (dark, light, system) without a `dark:` variant.
 export default {
-  content: [
-    './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
-    './src/layouts/**/*.astro',
-    './src/pages/**/*.astro',
-    './src/components/**/*.astro',
-  ],
+  content: ['./src/**/*.{astro,html,js,md,mdx,ts}'],
+  corePlugins: { preflight: false },
   theme: {
-    extend: {
-      // Font family synced with Portfolio
-      fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-      },
-      // Colors synced with Portfolio design language
-      colors: {
-        // Primary action color (from Portfolio's blue-600)
-        primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
-        },
-        // Background colors synced with Portfolio dark mode
-        dark: {
-          900: '#111827', // gray-900 - from Portfolio footer gradient
-          950: '#030712', // gray-950 - from Blog bg
-        },
-      },
-      typography: {
-        invert: {
-          css: {
-            '--tw-prose-body': 'var(--tw-prose-invert-body)',
-            '--tw-prose-headings': 'var(--tw-prose-invert-headings)',
-            '--tw-prose-lead': 'var(--tw-prose-invert-lead)',
-            '--tw-prose-links': '#60a5fa', // blue-400 for better visibility
-            '--tw-prose-bold': 'var(--tw-prose-invert-bold)',
-            '--tw-prose-counters': 'var(--tw-prose-invert-counters)',
-            '--tw-prose-bullets': 'var(--tw-prose-invert-bullets)',
-            '--tw-prose-hr': 'var(--tw-prose-invert-hr)',
-            '--tw-prose-quotes': 'var(--tw-prose-invert-quotes)',
-            '--tw-prose-quote-borders': '#2563eb', // blue-600 accent
-            '--tw-prose-captions': 'var(--tw-prose-invert-captions)',
-            '--tw-prose-code': '#f472b6', // pink-400 for code
-            '--tw-prose-pre-code': 'var(--tw-prose-invert-pre-code)',
-            '--tw-prose-pre-bg': '#1f2937', // gray-800 matching Portfolio
-            '--tw-prose-th-borders': 'var(--tw-prose-invert-th-borders)',
-            '--tw-prose-td-borders': 'var(--tw-prose-invert-td-borders)',
-          },
-        },
-      },
+    colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
+      bg: 'var(--bg)',
+      panel: 'var(--panel)',
+      bar: 'var(--bar)',
+      raised: 'var(--raised)',
+      fg: 'var(--fg)',
+      text2: 'var(--text-2)',
+      muted: 'var(--muted)',
+      code: 'var(--code-bg)',
+      hairline: 'var(--hairline)',
+      strong: 'var(--border-strong)',
+      danger: 'var(--danger)',
+      accent: 'var(--accent)',
+      'accent-hover': 'var(--accent-hover)',
+      path: 'var(--path)',
     },
+    fontFamily: { sans: ['var(--font-sans)'], mono: ['var(--font-mono)'] },
+    fontSize: {
+      xs: ['0.75rem', { lineHeight: '1.5' }],
+      sm: ['0.875rem', { lineHeight: '1.55' }],
+      base: ['1rem', { lineHeight: '1.65' }],
+      lg: ['1.125rem', { lineHeight: '1.5' }],
+      xl: ['1.375rem', { lineHeight: '1.25' }],
+      display: ['var(--fs-display)', { lineHeight: '1.02' }],
+    },
+    borderRadius: { none: '0', win: 'var(--r-win)', btn: 'var(--r-btn)', chip: 'var(--r-chip)' },
+    boxShadow: { none: 'none', win: 'var(--shadow-win)', 1: 'var(--shadow-1)', 2: 'var(--shadow-2)' },
+    extend: { maxWidth: { frame: 'var(--frame)', measure: 'var(--measure)', prose: 'var(--measure-prose)' } },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-  ],
+  plugins: [],
 };
