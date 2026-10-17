@@ -1,40 +1,45 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import { dayLabel, isoDay, isoMonth, monthLabel } from '../lib/dates.js';
-const { post, previous, next } = Astro.props;
+import { baseSlug, postLang, postUrl, t } from '../i18n.js';
+// alternates: { en, fr } paths of this post in each language (from the route).
+const { post, previous, next, alternates = {} } = Astro.props;
 const { title, description, pubDate, updatedDate, correction } = post.data;
+const lang = postLang(post);
+const s = t(lang);
 // A post with a correction shows the badge. A post only revised (updatedDate, no correction) says so plainly.
 const showUpdated = !correction && updatedDate;
 const more = [
-  previous && { post: previous, label: 'Previous', next: false },
-  next && { post: next, label: 'Next', next: true },
+  previous && { post: previous, label: s.previous, next: false },
+  next && { post: next, label: s.next, next: true },
 ].filter(Boolean);
+const path = lang === 'fr' ? `~/fr/blog/${baseSlug(post)}.md` : `~/blog/${post.slug}.md`;
 ---
-<BaseLayout title={`${title} | Camil Benameur`} description={description} current="archive">
+<BaseLayout title={`${title} | Camil Benameur`} description={description} current="archive" lang={lang} alternates={alternates}>
   <article class="post">
     <div class="secbar" aria-hidden="true">
       <span class="dots"><i></i><i></i><i></i></span>
-      <span class="win__title">~/blog/{post.slug}.md</span>
+      <span class="win__title">{path}</span>
       <span class="secbar__rule"></span>
     </div>
 
     <h1 class="post__title">{title}</h1>
     <p class="post__meta">
-      <time datetime={isoDay(pubDate)}>{dayLabel(pubDate)}</time>
+      <time datetime={isoDay(pubDate)}>{dayLabel(pubDate, lang)}</time>
       {correction && (
-        <span class="badge">corrected <time datetime={isoMonth(correction.date)}>{monthLabel(correction.date)}</time></span>
+        <span class="badge">{s.corrected} <time datetime={isoMonth(correction.date)}>{monthLabel(correction.date, lang)}</time></span>
       )}
       {showUpdated && (
-        <span>updated <time datetime={isoDay(updatedDate)}>{dayLabel(updatedDate)}</time></span>
+        <span>{s.updated} <time datetime={isoDay(updatedDate)}>{dayLabel(updatedDate, lang)}</time></span>
       )}
     </p>
 
     {correction && (
-      <section class="win correction" aria-label="Correction">
+      <section class="win correction" aria-label={s.correction}>
         <div class="win__bar win__bar--tall">
           <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
           <span class="win__title">// correction</span>
-          <time class="win__slot" datetime={isoDay(correction.date)}>{dayLabel(correction.date)}</time>
+          <time class="win__slot" datetime={isoDay(correction.date)}>{dayLabel(correction.date, lang)}</time>
         </div>
         <p>{correction.text}</p>
       </section>
@@ -43,12 +48,12 @@ const more = [
     <div class="prose"><slot /></div>
 
     {more.length > 0 && (
-      <nav class="post__end" aria-label="More posts">
+      <nav class="post__end" aria-label={s.morePosts}>
         {more.map((m) => (
-          <a class={m.next ? 'pn pn--next' : 'pn'} href={`/blog/${m.post.slug}/`}>
+          <a class={m.next ? 'pn pn--next' : 'pn'} href={postUrl(lang, baseSlug(m.post))}>
             <span class="pn__k">{m.label}</span>
             <span class="pn__t">{m.post.data.title}</span>
-            <span class="pn__d">{monthLabel(m.post.data.pubDate)}</span>
+            <span class="pn__d">{monthLabel(m.post.data.pubDate, lang)}</span>
           </a>
         ))}
       </nav>

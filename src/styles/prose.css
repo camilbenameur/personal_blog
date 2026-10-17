@@ -32,5 +32,8 @@ html:not([data-theme]) .code .copy { display: none; }
    The invert filter for dark (--diagram-filter) is in base.css. */
 .scroll svg[id^="mermaid"] { font-family: Arial, Helvetica, sans-serif; line-height: normal; }
 
+/* Language switch in the pill (blog only): the shared round .icon-btn, holding two letters instead of an icon. */
+.lang-btn { font: 600 .75rem/1 var(--font-mono); letter-spacing: .04em; text-decoration: none; }
+
 /* Page bits that are not in the mockup */
 .not-found, .empty { margin-top: 28px; }

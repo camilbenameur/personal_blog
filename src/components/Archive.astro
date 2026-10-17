@@ -1,0 +1,54 @@
+---
+// The archive (home page of the blog) in one language: posts grouped by year, newest first.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { isoDay, isoMonth, monthLabel } from '../lib/dates.js';
+import { postsIn } from '../lib/posts.js';
+import { baseSlug, homeUrl, postUrl, t } from '../i18n.js';
+const { lang = 'en' } = Astro.props;
+const s = t(lang);
+const posts = await postsIn(lang);
+// Newest year first; posts inside a year keep the newest-first order.
+const years = [];
+for (const post of posts) {
+  const year = post.data.pubDate.getUTCFullYear();
+  const group = years.find((y) => y.year === year);
+  if (group) group.posts.push(post);
+  else years.push({ year, posts: [post] });
+}
+---
+<BaseLayout
+  title="Blog | Camil Benameur"
+  description={s.archiveDescription}
+  current="archive"
+  lang={lang}
+  alternates={{ en: homeUrl('en'), fr: homeUrl('fr') }}
+>
+  <div class="col">
+    <div class="secbar" aria-hidden="true">
+      <span class="dots"><i></i><i></i><i></i></span><span>{lang === 'fr' ? '~/fr/blog' : '~/blog'}</span><span class="secbar__rule"></span>
+    </div>
+    <h1 class="h2">{s.blog}</h1>
+    {posts.length === 0 && <p class="small empty">{s.noPosts}</p>}
+    {years.map(({ year, posts: inYear }) => (
+      <>
+        <h2 class="yearhead">{year}/</h2>
+        <ol class="rows">
+          {inYear.map((post) => (
+            <li class="row">
+              <time class="row__date" datetime={isoDay(post.data.pubDate)}>{monthLabel(post.data.pubDate, lang)}</time>
+              <div>
+                <div class="row__top">
+                  <h3 class="row__title"><a href={postUrl(lang, baseSlug(post))}>{post.data.title}</a></h3>
+                  {post.data.correction && (
+                    <span class="badge">{s.corrected} <time datetime={isoMonth(post.data.correction.date)}>{monthLabel(post.data.correction.date, lang)}</time></span>
+                  )}
+                </div>
+                <p class="row__line small">{post.data.description}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </>
+    ))}
+  </div>
+</BaseLayout>

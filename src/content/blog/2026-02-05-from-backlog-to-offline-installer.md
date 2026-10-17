@@ -6,7 +6,7 @@ pubDate: 2026-02-05
 updatedDate: 2026-10-14
 correction:
   date: 2026-10-14
-  text: "October 14, 2026: I corrected how I described the offline Docker install (which packages were pinned, how dependencies were resolved, what some steps did), reworded other steps and the supporting system to match the code, softened claims about the architecture and the outcome, and removed one setup detail and one statement about other people's availability. A later post looks at the project in more depth. September 29, 2026: I removed claims I could not back up: that a manual install took hours and dropped to minutes, that the installer scaled to fleets, that the result was reproducible and less error-prone, that it ran in production, and that there were strict deployment windows. I also removed statements about my teammates and about working mostly alone, described the starting point as a need rather than a client request, softened some general claims about industrial PCs, and added that I owned the project until March 2026."
+  text: "October 14, 2026: I corrected how I described the offline Docker install (which packages were pinned, how dependencies were resolved, what some steps did), reworded other steps and the supporting system to match how the installer actually worked, softened claims about the architecture and the outcome, and removed one setup detail and one statement about other people's availability. A later post looks at the project in more depth. September 29, 2026: I removed claims I could not back up: that a manual install took hours and dropped to minutes, that the installer scaled to fleets, that the result was reproducible and less error-prone, that it ran in production, and that there were strict deployment windows. I also removed statements about my teammates and about working mostly alone, described the starting point as a need rather than a client request, softened some general claims about industrial PCs, and added that I owned the project until March 2026."
 tags: ["go", "architecture", "devops", "offline", "installation", "industrial"]
 slug: "from-backlog-to-offline-installer"
 ---
@@ -35,7 +35,7 @@ For the API, I used `Huma v2` for its JSON ergonomics and OpenAPI generation fro
 
 ## The Hardest Challenge: Offline Docker at a Fixed Version
 
-The hardest technical challenge was installing Docker 27.5.1 on air-gapped apt-based Linux devices (the repository layout in the code is Ubuntu's). The standard repositories did not exist in the default sources list, and we needed a precise version.
+The hardest technical challenge was installing Docker 27.5.1 on air-gapped apt-based Linux devices (the download path followed Ubuntu's repository layout). The standard repositories did not exist in the default sources list, and we needed a precise version.
 
 The solution became an offline dependency pipeline:
 
@@ -81,9 +81,9 @@ If there is one lesson, it is this: on this project, I aimed for reliability and
 
 The note at the top of the page gives the main correction. These are the other main changes:
 
-- the Docker version pinning: only two of the five packages were pinned, and only as a default
-- the description of the offline pipeline (dependency walk, manifests, the final steps) and of the supporting worker, rewritten to match what the code does
-- the claim about different Linux distros: the download path in the code follows Ubuntu's repository layout
+- the Docker version pinning: only `docker-ce` and `docker-ce-cli` were pinned, and only as a default
+- the description of the offline pipeline (dependency walk, manifests, the final steps) and of the supporting worker, rewritten to match how the installer actually worked
+- the claim about different Linux distros: the download path followed Ubuntu's repository layout
 - the architecture description, the "system stabilized" line and the spec-driven development line, written as what I aimed for and felt rather than what was achieved
 - a statement about other people's availability, the API documentation claim and one setup detail
 

@@ -9,15 +9,18 @@ import '../styles/global.css';
 import Icons from '../components/Icons.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
-const {
-  title,
-  description = 'Write-ups of software I have built, mostly in Go. By Camil Benameur, software engineer in Nice, France.',
-  current = '',
-} = Astro.props;
+import { feedUrl, homeUrl, otherLang, t } from '../i18n.js';
+// lang: language of this page. alternates: { en, fr } paths of this page in each language (the language
+// switch goes to the other one, or to the other language's archive when a page has no translation).
+const { title, description, current = '', lang = 'en', alternates = {} } = Astro.props;
+const s = t(lang);
+const other = otherLang(lang);
+const switchHref = alternates[other] ?? homeUrl(other);
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const hreflangs = Object.entries(alternates).map(([l, href]) => ({ l, href: new URL(href, Astro.site) }));
 ---
 <!doctype html>
-<html lang="en" data-site="blog">
+<html lang={lang} data-site="blog">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -28,15 +31,17 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <script is:inline src="/theme.js"></script>
     <link rel="preload" as="font" type="font/woff2" crossorigin href={geistLatin} />
     <title>{title}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={description ?? s.siteDescription} />
     <link rel="canonical" href={canonical} />
+    {hreflangs.map(({ l, href }) => <link rel="alternate" hreflang={l} href={href} />)}
+    {alternates.en && <link rel="alternate" hreflang="x-default" href={new URL(alternates.en, Astro.site)} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate" type="application/feed+json" title="Camil Benameur - Blog" href="/feed.json" />
+    <link rel="alternate" type="application/feed+json" title={s.feedTitle} href={feedUrl(lang)} />
   </head>
   <body>
-    <a class="skip" href="#main">Skip to content</a>
+    <a class="skip" href="#main">{s.skip}</a>
     <Icons />
-    <SiteHeader current={current} />
+    <SiteHeader current={current} lang={lang} switchHref={switchHref} />
     <main id="main" tabindex="-1"><slot /></main>
     <SiteFooter />
     <script is:inline src="/keys.js" defer></script>

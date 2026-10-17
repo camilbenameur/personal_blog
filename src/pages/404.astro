@@ -1,4 +1,5 @@
 ---
+// One 404 for both languages (the host serves a single 404.html): English first, French underneath.
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 <BaseLayout title="Page not found | Camil Benameur">
@@ -8,5 +9,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
     <h1 class="h2">Page not found</h1>
     <p class="not-found"><a class="link" href="/">Back to all posts</a></p>
+    <p class="not-found" lang="fr">Page introuvable. <a class="link" href="/fr/">Revenir aux articles</a></p>
   </div>
 </BaseLayout>

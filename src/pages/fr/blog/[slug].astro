@@ -1,0 +1,10 @@
+---
+import BlogPostLayout from '../../../layouts/BlogPostLayout.astro';
+import { postPaths } from '../../../lib/posts.js';
+export async function getStaticPaths() {
+  return postPaths('fr');
+}
+const { post, previous, next, alternates } = Astro.props;
+const { Content } = await post.render();
+---
+<BlogPostLayout post={post} previous={previous} next={next} alternates={alternates}><Content /></BlogPostLayout>

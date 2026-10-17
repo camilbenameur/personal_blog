@@ -11,6 +11,8 @@ const blog = defineCollection({
     correction: z.object({ date: z.coerce.date(), text: z.string() }).optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    // French versions sit in src/content/blog/fr/ with lang "fr" and slug "fr/<english slug>" (see src/i18n.js).
+    lang: z.enum(['en', 'fr']).default('en'),
   }),
 });
 
