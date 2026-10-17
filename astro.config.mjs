@@ -33,7 +33,7 @@ const mermaidConfig = {
 export default defineConfig({
   site: 'https://blog.camilbenameur.com',
   integrations: [mdx(), tailwind({ applyBaseStyles: false })],
-  redirects: { '/blog': '/' },
+  redirects: { '/blog': '/', '/fr/blog': '/fr/' },
   markdown: {
     shikiConfig: {
       theme: 'css-variables',

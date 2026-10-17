@@ -2,31 +2,37 @@
 // The pill nav of the portfolio, adapted for the blog (same classes as the portfolio's SiteHeader.jsx).
 // `cb_` goes to the portfolio; items are Home (the portfolio), Archive, Feed (a JSON Feed, not RSS).
 // current: "archive" on the archive page and on every post (a post belongs to the archive).
-const { current = '' } = Astro.props;
+// The language switch (blog only, styled in prose.css) links to this page in the other language.
+import { feedUrl, homeUrl, otherLang, t } from '../i18n.js';
+const { current = '', lang = 'en', switchHref = '/' } = Astro.props;
+const s = t(lang);
+const other = otherLang(lang);
 const items = [
-  { label: 'Home', href: 'https://camilbenameur.com/' },
-  { label: 'Archive', href: '/', key: 'archive' },
-  { label: 'Feed', href: '/feed.json' },
+  { label: s.nav.home, href: 'https://camilbenameur.com/' },
+  { label: s.nav.archive, href: homeUrl(lang), key: 'archive' },
+  { label: s.nav.feed, href: feedUrl(lang) },
 ];
 ---
 <header class="pillbar">
-  <nav class="pill" aria-label="Primary">
+  <nav class="pill" aria-label={s.nav.primary}>
     <a class="mark" href="https://camilbenameur.com/" aria-label="Camil Benameur, portfolio">cb<span>_</span></a>
     <ul class="pill__links">
       {items.map((i) => <li><a href={i.href} aria-current={i.key && i.key === current ? 'page' : undefined}>{i.label}</a></li>)}
     </ul>
     <div class="pill__end">
-      <button class="icon-btn" type="button" data-theme-flip aria-label="Switch between dark and light theme">
+      <a class="icon-btn lang-btn" href={switchHref} hreflang={other} lang={other} aria-label={s.switchAria}>{s.switchLabel}</a>
+      <button class="icon-btn" type="button" data-theme-flip aria-label={s.themeFlip}>
         <svg class="i-moon" aria-hidden="true"><use href="#i-moon"></use></svg>
         <svg class="i-sun" aria-hidden="true"><use href="#i-sun"></use></svg>
       </button>
     </div>
-    <button class="pill__menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+    <button class="pill__menu" type="button" aria-expanded="false" aria-controls="menu">{s.nav.menu}</button>
   </nav>
   <div class="win menu" id="menu" hidden>
     <div class="win__bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="win__title">~/menu</span></div>
     <ul>
       {items.map((i) => <li><a href={i.href} aria-current={i.key && i.key === current ? 'page' : undefined}>{i.label}</a></li>)}
+      <li><a href={switchHref} hreflang={other} lang={other}>{s.switchName}</a></li>
     </ul>
   </div>
 </header>
