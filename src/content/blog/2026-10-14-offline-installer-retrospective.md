@@ -193,4 +193,4 @@ The takeaway is narrow. On this project the layer boundaries held, mostly by con
 
 ---
 
-*I'm Camil, an engineer in Nice, France. You can find me on [GitHub](https://github.com/camilbenameur) and [LinkedIn](https://www.linkedin.com/in/camil-benameur-14a762194/).*
+*I'm Camil, a software engineer in Lyon, France. You can find me on [GitHub](https://github.com/camilbenameur) and [LinkedIn](https://www.linkedin.com/in/camil-benameur-14a762194/).*

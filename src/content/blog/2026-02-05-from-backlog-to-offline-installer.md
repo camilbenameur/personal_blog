@@ -69,7 +69,7 @@ Before this there was no installer, only requirements. The installer ran the tar
 
 ## Personal Turning Point
 
-This was my first serious Go project and my first time applying clean architecture on an industrial product. I learned fast during the summer. I followed the Software Design and Architecture specialization from the University of Alberta on Coursera to structure my learning, and worked through UML and system design. That helped me structure my design work with UML and written specifications.
+This was my first serious Go project and my first time applying clean architecture on an industrial product. I learned fast during the summer. I followed the Software Design and Architecture specialization from the University of Alberta on Coursera to structure my learning, and worked through UML and system design, which helped me structure my design work with written specifications.
 
 At one point, the architecture clicked for me, and I felt I could navigate the codebase with confidence. That was the moment I felt legitimate.
 
@@ -88,3 +88,7 @@ The note at the top of the page gives the main correction. These are the other m
 - a statement about other people's availability, the API documentation claim and one setup detail
 
 For a closer look at the same project, including what I over-built, see [How an Offline Installer Works, and What I Over-Built Along the Way](/blog/offline-installer-retrospective/).
+
+---
+
+*I'm Camil, a software engineer in Lyon, France. You can find me on [GitHub](https://github.com/camilbenameur) and [LinkedIn](https://www.linkedin.com/in/camil-benameur-14a762194/).*

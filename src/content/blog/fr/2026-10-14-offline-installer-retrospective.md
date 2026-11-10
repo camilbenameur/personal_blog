@@ -194,4 +194,4 @@ Ce qu'il faut retenir est restreint. Sur ce projet, les frontières entre couche
 
 ---
 
-*Je suis Camil, ingénieur à Nice, en France. Vous pouvez me retrouver sur [GitHub](https://github.com/camilbenameur) et [LinkedIn](https://www.linkedin.com/in/camil-benameur-14a762194/).*
+*Je suis Camil, ingénieur logiciel à Lyon, en France. Vous pouvez me retrouver sur [GitHub](https://github.com/camilbenameur) et [LinkedIn](https://www.linkedin.com/in/camil-benameur-14a762194/).*

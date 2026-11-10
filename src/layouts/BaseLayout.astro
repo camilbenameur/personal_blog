@@ -33,6 +33,13 @@ const hreflangs = Object.entries(alternates).map(([l, href]) => ({ l, href: new 
     <title>{title}</title>
     <meta name="description" content={description ?? s.siteDescription} />
     <link rel="canonical" href={canonical} />
+    <meta name="author" content="Camil Benameur" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description ?? s.siteDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Camil Benameur" />
+    <meta property="og:locale" content={lang === 'fr' ? 'fr_FR' : 'en_GB'} />
     {hreflangs.map(({ l, href }) => <link rel="alternate" hreflang={l} href={href} />)}
     {alternates.en && <link rel="alternate" hreflang="x-default" href={new URL(alternates.en, Astro.site)} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

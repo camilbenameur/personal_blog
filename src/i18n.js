@@ -8,7 +8,7 @@ export const LANGS = ['en', 'fr'];
 const STRINGS = {
   en: {
     locale: 'en-US',
-    siteDescription: 'Write-ups of software I have built, mostly in Go. By Camil Benameur, software engineer in Nice, France.',
+    siteDescription: 'Write-ups of software I have built, mostly in Go. By Camil Benameur, software engineer in Lyon, France.',
     archiveDescription: 'Write-ups of software I have built, mostly in Go.',
     feedTitle: 'Camil Benameur - Blog',
     skip: 'Skip to content',
@@ -28,7 +28,7 @@ const STRINGS = {
   },
   fr: {
     locale: 'fr-FR',
-    siteDescription: "Retours d'expérience sur des logiciels que j'ai construits, surtout en Go. Par Camil Benameur, ingénieur logiciel à Nice.",
+    siteDescription: "Retours d'expérience sur des logiciels que j'ai construits, surtout en Go. Par Camil Benameur, ingénieur logiciel à Lyon.",
     archiveDescription: "Retours d'expérience sur des logiciels que j'ai construits, surtout en Go.",
     feedTitle: 'Camil Benameur - Blog',
     skip: 'Aller au contenu',

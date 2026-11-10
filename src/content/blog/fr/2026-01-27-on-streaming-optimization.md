@@ -284,4 +284,4 @@ Détails et chiffres : [PERFORMANCE.md](https://github.com/camilbenameur/go-llm
 
 ---
 
-*Je suis Camil, ingénieur logiciel à Nice, en France. Vous pouvez me retrouver sur [GitHub](https://github.com/camilbenameur) et [LinkedIn](https://www.linkedin.com/in/camil-benameur-14a762194/).*
+*Je suis Camil, ingénieur logiciel à Lyon, en France. Vous pouvez me retrouver sur [GitHub](https://github.com/camilbenameur) et [LinkedIn](https://www.linkedin.com/in/camil-benameur-14a762194/).*

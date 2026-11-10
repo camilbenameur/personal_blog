@@ -70,7 +70,7 @@ Avant cela, il n'y avait pas d'installateur, seulement des exigences. L'installa
 
 ## Un tournant personnel
 
-C'était mon premier projet Go sérieux et la première fois que j'appliquais la clean architecture sur un produit industriel. J'ai appris vite pendant l'été. J'ai suivi la spécialisation Software Design and Architecture de l'Université de l'Alberta sur Coursera pour structurer mon apprentissage, et j'ai travaillé l'UML et la conception de systèmes. Cela m'a aidé à structurer mon travail de conception avec UML et des spécifications écrites.
+C'était mon premier projet Go sérieux et la première fois que j'appliquais la clean architecture sur un produit industriel. J'ai appris vite pendant l'été. J'ai suivi la spécialisation Software Design and Architecture de l'Université de l'Alberta sur Coursera pour structurer mon apprentissage, et j'ai travaillé l'UML et la conception de systèmes, ce qui m'a aidé à structurer mon travail de conception avec des spécifications écrites.
 
 À un moment, j'ai eu le déclic sur l'architecture, et j'ai senti que je pouvais naviguer dans la base de code avec assurance. C'est à ce moment-là que je me suis senti légitime.
 
@@ -89,3 +89,7 @@ La note en haut de la page donne la correction principale. Voici les autres chan
 - une affirmation sur la disponibilité d'autres personnes, l'affirmation sur la documentation de l'API et un détail de configuration
 
 Pour un regard plus approfondi sur le même projet, y compris sur ce que j'ai surdimensionné, voir [Comment fonctionne un installateur hors ligne, et ce que j'ai surdimensionné en chemin](/fr/blog/offline-installer-retrospective/).
+
+---
+
+*Je suis Camil, ingénieur logiciel à Lyon, en France. Vous pouvez me retrouver sur [GitHub](https://github.com/camilbenameur) et [LinkedIn](https://www.linkedin.com/in/camil-benameur-14a762194/).*
