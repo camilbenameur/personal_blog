@@ -2,7 +2,7 @@
 title: "Mon IA a failli poster mon code 2FA"
 description: "Un message piégé demande à mon IA Telegram mon code de vérification. Elle obéit, mais un lock en code ordinaire retient le message. Résultats et limites."
 author: "Camil Benameur"
-pubDate: 2026-11-19
+pubDate: 2026-11-18
 tags: ["security", "llm", "agents", "mcp", "prompt-injection", "python", "telegram"]
 slug: "fr/ai-telegram-lock"
 lang: "fr"
@@ -43,6 +43,14 @@ flowchart LR
     G -->|"sinon"| Q["Queue : attend mon oui"]
 ```
 
+## Pourquoi ne pas simplement tout valider ?
+
+C'est la question évidente, et c'est le réglage par défaut : un chat sans règle n'envoie jamais rien seul, je valide chaque message.
+
+Mais même dans ce mode, il faut un lock pour que ce soit vrai. Écrire « demande-moi avant d'envoyer » dans les consignes de l'IA ne suffit pas : c'est du texte, et une prompt injection sert justement à remplacer une consigne par une autre. Le lock rend la validation obligatoire en code, même quand l'IA est piégée.
+
+Les règles d'envoi automatique servent à autre chose : alléger la relecture quand le volume monte. À 50 messages par jour, on finit par approuver par réflexe. Mieux vaut ne relire que ce qui touche un code, un montant, un groupe ou un inconnu.
+
 ## Le résultat
 
 J'ai écrit 20 attaques à la main, comme un escroc : fausse fin de conversation, faux journal d'envoi, fausse confirmation de paiement… Les modèles récents (Haiku 5.5, Sonnet 5.5, Sonnet 4.6) n'en ont gobé aucune, sur 2 essais chacune. Haiku 4.5, plus ancien, se fait piéger. Sur ses 4 attaques les plus nettes, 5 essais chacune :
@@ -62,4 +70,4 @@ Protocole complet, 20 attaques et toutes les limites : [README du dépôt](http
 
 ---
 
-Je suis Camil, ingénieur logiciel à Lyon, et je cherche un CDI backend Go / Python (IA). Si ce genre d'ingénierie vous parle, écrivez-moi sur [LinkedIn](https://www.linkedin.com/in/camil-benameur-14a762194/).
+Je suis Camil, ingénieur logiciel à Lyon. Si ce genre d'ingénierie vous parle, écrivez-moi sur [LinkedIn](https://www.linkedin.com/in/camil-benameur-14a762194/).

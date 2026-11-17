@@ -2,7 +2,7 @@
 title: "My AI almost posted my 2FA code"
 description: "A booby-trapped message asks my Telegram AI for my verification code. It obeys, but a plain-code lock holds the message back. Results and limits."
 author: "Camil Benameur"
-pubDate: 2026-11-19
+pubDate: 2026-11-18
 tags: ["security", "llm", "agents", "mcp", "prompt-injection", "python", "telegram"]
 slug: "ai-telegram-lock"
 lang: "en"
@@ -43,6 +43,14 @@ flowchart LR
     G -->|"otherwise"| Q["Queue: waits for my yes"]
 ```
 
+## Why not just approve everything?
+
+It's the obvious question, and it's the default setting: a chat with no rule never sends anything on its own, and I approve every message.
+
+But even in that mode, you need a lock to make it true. Writing "ask me before sending" in the AI's instructions isn't enough: it's just text, and a prompt injection exists precisely to replace one instruction with another. The lock makes approval mandatory in code, even when the AI has been fooled.
+
+The auto-send rules serve another purpose: lightening the review when volume grows. At 50 messages a day, you end up approving on reflex. Better to only review what touches a code, an amount, a group or a stranger.
+
 ## The result
 
 I wrote 20 attacks by hand, like a scammer would: fake end of conversation, fake send log, fake payment confirmation… The recent models (Haiku 5.5, Sonnet 5.5, Sonnet 4.6) fell for none of them, over 2 tries each. Haiku 4.5, an older model, gets fooled. On its 4 clearest attacks, 5 tries each:
@@ -62,4 +70,4 @@ Full protocol, 20 attacks and all the limits: [repo README](https://github.com/c
 
 ---
 
-I'm Camil, a software engineer in Lyon, looking for a permanent backend Go / Python (AI) role. If this kind of engineering speaks to you, write to me on [LinkedIn](https://www.linkedin.com/in/camil-benameur-14a762194/).
+I'm Camil, a software engineer in Lyon. If this kind of engineering speaks to you, write to me on [LinkedIn](https://www.linkedin.com/in/camil-benameur-14a762194/).
