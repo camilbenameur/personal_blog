@@ -1,6 +1,6 @@
 ---
 title: "MCP n'est pas mort : ce que le Code Mode change, et ce qu'il déplace"
-description: "Au lieu d'appeler les outils MCP un par un, le modèle écrit un petit programme qui les appelle dans un bac à sable. Les chiffres de Cloudflare et d'Anthropic, et les deux problèmes que ce montage déplace : le bac à sable et la validation humaine."
+description: "Au lieu d'appeler les outils MCP un par un, le modèle écrit un petit programme qui les appelle dans une sandbox. Les chiffres de Cloudflare et d'Anthropic, et les deux problèmes que ce montage déplace : la sandbox et la validation humaine."
 author: "Camil Benameur"
 pubDate: 2026-11-21
 tags: ["llm", "agents", "mcp", "sandbox", "security"]
@@ -9,7 +9,7 @@ lang: "fr"
 draft: false
 ---
 
-Du contenu sur plusieurs plateformes annonce « RIP MCP ». Le protocole va bien. Ce qui change, c'est la façon dont le modèle s'en sert. Voici l'idée, les chiffres publiés, et ce que j'en retiens en tant que personne qui construit des bacs à sable pour agents.
+Du contenu sur plusieurs plateformes annonce « RIP MCP ». Le protocole va bien. Ce qui change, c'est la façon dont le modèle s'en sert. Voici l'idée, les chiffres publiés, et ce que j'en retiens en tant que personne qui construit des sandboxes pour agents.
 
 ## Le problème : un aller-retour par outil
 
@@ -30,14 +30,14 @@ const orders = await crm.listOrders({ customerId: client.id });
 return orders.filter(o => o.status === "open").map(o => o.id);
 ```
 
-Le programme tourne dans un bac à sable. Les résultats intermédiaires restent dans le programme. Seul ce qu'il renvoie revient au modèle.
+Le programme tourne dans une sandbox. Les résultats intermédiaires restent dans le programme. Seul ce qu'il renvoie revient au modèle.
 
 L'hypothèse de Cloudflare pour expliquer pourquoi ça marche : les modèles ont vu énormément de vrai code pendant leur entraînement, et seulement quelques exemples artificiels d'appels d'outils. Écrire une boucle et un filtre leur est plus naturel qu'enchaîner vingt appels structurés.
 
 ## Les chiffres publiés
 
 - **Cloudflare, février 2026.** Le [serveur MCP de l'API Cloudflare](https://blog.cloudflare.com/code-mode-mcp/) couvre plus de 2 500 endpoints avec deux outils seulement, `search()` et `execute()`, soit environ 1 000 tokens. Le modèle écrit du JavaScript pour chercher dans la spécification OpenAPI, puis pour appeler l'API. D'après Cloudflare, un serveur équivalent qui exposerait chaque endpoint comme un outil consommerait 1,17 million de tokens.
-- **Anthropic, novembre 2025.** Dans [« Code execution with MCP »](https://www.anthropic.com/engineering/code-execution-with-mcp), un exemple de workflow passe de 150 000 à 2 000 tokens. Quelques semaines plus tard, Anthropic a ajouté à son API le [Programmatic Tool Calling](https://www.anthropic.com/engineering/advanced-tool-use) : Claude écrit un script Python qui appelle vos outils depuis un environnement d'exécution isolé. Sur des tâches de recherche complexes, l'usage moyen baisse de 43 588 à 27 297 tokens (−37 %).
+- **Anthropic, novembre 2025.** Dans [« Code execution with MCP »](https://www.anthropic.com/engineering/code-execution-with-mcp), un exemple de workflow passe de 150 000 à 2 000 tokens. Quelques semaines plus tard, Anthropic a ajouté à son API le [Programmatic Tool Calling](https://www.anthropic.com/engineering/advanced-tool-use) : Claude écrit un script Python qui appelle vos outils depuis une sandbox. Sur des tâches de recherche complexes, l'usage moyen baisse de 43 588 à 27 297 tokens (−37 %).
 - **goose (Block), décembre 2025.** La version 1.17.0 ajoute une extension [Code Mode](https://goose-docs.ai/blog/2025/12/15/code-mode-mcp) qui présente les extensions MCP activées comme des modules JavaScript.
 
 Il faut lire ces chiffres pour ce qu'ils sont. Le 1,17 million compare à un serveur qui exposerait 2 500 outils d'un coup, ce que personne ne ferait. Le 150 000 → 2 000 porte sur un workflow choisi. Le −37 %, mesuré sur un ensemble de tâches, est plus représentatif. Pour un agent qui a cinq outils et fait trois appels, le gain est faible.
@@ -48,11 +48,11 @@ L'équipe de goose a écrit un billet au titre clair : [Code Mode ne remplace pa
 
 ## Ce que le Code Mode déplace
 
-Le gain en tokens a une contrepartie. Anthropic l'écrit dans le même article : exécuter du code généré par un agent demande un environnement sécurisé, avec isolation, limites de ressources et surveillance, ce que les appels directs d'outils évitent. Deux problèmes changent de place.
+Le gain en tokens a une contrepartie. Anthropic l'écrit dans le même article : exécuter du code généré par un agent demande un environnement sécurisé, avec sandboxing, limites de ressources et monitoring, ce que les appels directs d'outils évitent. Deux problèmes changent de place.
 
-**Le bac à sable devient le composant critique.** Le programme est écrit par un modèle qui a peut-être lu une page piégée juste avant. Il faut donc partir du principe qu'il peut être hostile. Cloudflare exécute le code dans un isolat V8 sans système de fichiers, sans variables d'environnement à faire fuiter, et sans accès réseau sortant par défaut ; les requêtes sortantes passent par un gestionnaire qu'on contrôle. C'est le bon réflexe : le programme ne voit ni secret ni réseau, et chaque appel sort par un point où l'on peut appliquer une règle. C'est aussi le principe de [sandmeter](https://github.com/camilbenameur/sandmeter), le bac à sable pour agents que je construis à partir des primitives Linux et de gVisor.
+**La sandbox devient le composant critique.** Le programme est écrit par un modèle qui a peut-être lu une page piégée juste avant. Il faut donc partir du principe qu'il peut être hostile. Cloudflare exécute le code dans un isolate V8 sans système de fichiers, sans variables d'environnement à faire fuiter, et sans accès réseau sortant par défaut ; les requêtes sortantes passent par un handler qu'on contrôle. C'est le bon réflexe : le programme ne voit ni secret ni réseau, et chaque appel sort par un point où l'on peut appliquer une règle. C'est aussi le principe de [sandmeter](https://github.com/camilbenameur/sandmeter), la sandbox pour agents que je construis à partir des primitives Linux et de gVisor.
 
-**La validation humaine perd sa granularité.** Avec un outil par action, on peut décider que `delete_zone` ou `send_message` demande une confirmation, et le reste non. Avec un seul `execute()`, un appel peut enchaîner dix actions, dont une irréversible au milieu d'une boucle. Si l'on valide l'appel entier, on valide un programme qu'on ne relit pas. Dans [le lock qui retient les envois Telegram de mon IA](/fr/blog/ai-telegram-lock/), toute la sécurité tenait au fait que chaque envoi passait par un point de contrôle en code. Avec le Code Mode, ce point de contrôle doit se trouver dans le pont entre le bac à sable et les outils : chaque appel sortant du programme est vérifié contre une règle fixe, et les actions irréversibles restent bloquées jusqu'à une confirmation.
+**La validation humaine perd sa granularité.** Avec un outil par action, on peut décider que `delete_zone` ou `send_message` demande une confirmation, et le reste non. Avec un seul `execute()`, un appel peut enchaîner dix actions, dont une irréversible au milieu d'une boucle. Si l'on valide l'appel entier, on valide un programme qu'on ne relit pas. Dans [le lock qui retient les envois Telegram de mon IA](/fr/blog/ai-telegram-lock/), toute la sécurité tenait au fait que chaque envoi passait par un checkpoint en code. Avec le Code Mode, ce checkpoint doit se trouver dans le bridge entre la sandbox et les outils : chaque appel sortant du programme est vérifié contre une règle fixe, et les actions irréversibles restent bloquées jusqu'à une confirmation.
 
 ## Ce que j'en retiens
 
