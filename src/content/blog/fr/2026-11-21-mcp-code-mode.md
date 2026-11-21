@@ -9,7 +9,7 @@ lang: "fr"
 draft: false
 ---
 
-Une vidéo qui circule cette semaine annonce « RIP MCP ». Le protocole va bien. Ce qui change, c'est la façon dont le modèle s'en sert. Voici l'idée, les chiffres publiés, et ce que j'en retiens en tant que personne qui construit des bacs à sable pour agents.
+Du contenu sur plusieurs plateformes annonce « RIP MCP ». Le protocole va bien. Ce qui change, c'est la façon dont le modèle s'en sert. Voici l'idée, les chiffres publiés, et ce que j'en retiens en tant que personne qui construit des bacs à sable pour agents.
 
 ## Le problème : un aller-retour par outil
 

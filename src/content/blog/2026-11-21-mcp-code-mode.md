@@ -9,7 +9,7 @@ lang: "en"
 draft: false
 ---
 
-A video going around this week says "RIP MCP". The protocol is fine. What changes is how the model uses it. Here is the idea, the published numbers, and what I take from it as someone who builds sandboxes for agents.
+Content on several platforms says "RIP MCP". The protocol is fine. What changes is how the model uses it. Here is the idea, the published numbers, and what I take from it as someone who builds sandboxes for agents.
 
 ## The problem: one round trip per tool
 
